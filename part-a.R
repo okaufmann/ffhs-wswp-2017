@@ -1,49 +1,36 @@
-N <- 10 # rows 
-M <- 100 # columns
-
-# valuesNormalized <- c(rnorm(N*M,mean=0,sd=1))
+n <- 10 # rows 
+m <- 100 # columns
 
 sequences <- c()
 
-for(i in 1:M) {
-    sequence <- c(rnorm(N, mean=0, sd=1))
+# generate 10 sequences
+for(i in 1:n) {
+    sequence <- c(runif(m, min=-1, max=1))
     sequences <- append(sequences, sequence)
 }
 
+# create matrix where rows and columns are inverted
 values = matrix(
     sequences,
-    nrow=M,
-    ncol=N)
+    nrow=m,
+    ncol=n)
 
+# transform matrix into correct form
 valuesTransposed = t(values)
+print(length(valuesTransposed[1,])) # first row must have 100 entries
+print(length(valuesTransposed[,1])) # first column must have 10 entries
 
-# calculate 100 sums consisting of 100 summands
+# calculate 100 sums consisting of 10 summands (one per sequence)
 sums = c()
-for(x in 1:M) {
+for(y in 1:n) {
     summands = c()
-    for(y in 1:M) {
-        val <- valuesTransposed[x,y]
+    for(x in 1:m) {
+        val <- valuesTransposed[y,x]
         summands <- append(summands, val)
     }
-    sums <- sum(summands)
+    # append sum to sums vector
+    sums <- append(sums, sum(summands))
 }
 
-print(sums)
-
-# min <- min(valuesNormalized)
-# max <- max(valuesNormalized)
-# range <- max - min
-
-# min
-# max
-# range
-# for(i in 1:(N*M)) { 
-#     currentValue <- valuesNormalized[i]
-#     currentValueInRange <- currentValue+abs(min)
-#     newValue <- 1/range*currentValueInRange
-#     newValue2 <- newValue * 2 - 1
-#     values[i] <- newValue2
-# }
-
-#tail(valuesNormalized, n=10)
-print(values[1,1])
+# show histogram
+hist(sums)
